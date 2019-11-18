@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import useLocalStorage from './storage.hook';
 
 const DB_NAME = "todos-next-demo-db";
 
@@ -6,34 +7,42 @@ export function useTodos(initTaskList = []) {
 
     const [taskList, setTaskList] = useState([]);
 
+    const [data, saveChanged] = useLocalStorage(DB_NAME);
+
     const [isLoaded, setIsLoaded] = useState(false);
 
-    useEffect(() => {
+    function jsonToArray(json) {
+        let result = [];
+        let keys = Object.keys(json);
+        for (let i = 0; i < keys.length; i++) {
+            result.push(json[keys[i]]);
+        }
+        return result;
+    }
 
-        if (!isLoaded) {
-            let json = JSON.parse(localStorage.getItem(DB_NAME));
-            console.log(json);
-            if (json != undefined) {
-                let keys = Object.keys(json["data"]);
-                let data = [];
-                for (let i = 0; i < keys.length; i++) {
-                    data.push(json["data"][keys[i]]);
-                }
-                setTaskList(data);
-            }
+    function arrayToJson(array) {
+        let json = {};
+        for (let i = 0; i < array.length; i++) {
+            json[i] = array[i];
+        }
+        return json;
+    }
+
+    useEffect(() => {
+        if (isLoaded) {
+            saveChanged({ data: arrayToJson(taskList) });
+        }
+    }, [taskList])
+
+    useEffect(() => {
+        if (data.data != undefined && !isLoaded) {
+            setTaskList(jsonToArray(data.data));
             setIsLoaded(true);
         }
-        let savedData = { data: {} };
-        for (let i = 0; i < taskList.length; i++) {
-            savedData.data[i] = taskList[i];
-        }
-        console.log(savedData);
-        localStorage.setItem(DB_NAME, JSON.stringify(savedData));
-    }, [taskList])
+    }, [data])
 
     function change(tasks) {
         setTaskList(tasks);
-
     }
 
     function addTask(task) {

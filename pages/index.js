@@ -3,7 +3,7 @@ import { useTodos } from '../hooks/todos.hook';
 import MemoDialog from '../components/new-memo-dialog';
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
-import { Button, Dialog, DialogContent, Typography, LinearProgress } from '@material-ui/core';
+import { Typography, LinearProgress } from '@material-ui/core';
 import TodoList from '../components/todo-list';
 
 function App(props) {
