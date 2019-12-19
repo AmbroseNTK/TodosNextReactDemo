@@ -83,7 +83,6 @@ function App(props) {
                     onDelete={(index) => removeTask(index)} />
             </body>
         </html>
-
     )
 }
 

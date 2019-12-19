@@ -12,6 +12,10 @@ export function useTodos(initTaskList = []) {
     const [isLoaded, setIsLoaded] = useState(false);
 
     function jsonToArray(json) {
+        if (json == undefined) {
+
+            return [];
+        }
         let result = [];
         let keys = Object.keys(json);
         for (let i = 0; i < keys.length; i++) {
@@ -30,15 +34,18 @@ export function useTodos(initTaskList = []) {
 
     useEffect(() => {
         if (isLoaded) {
+            console.log(taskList);
             saveChanged({ data: arrayToJson(taskList) });
         }
     }, [taskList])
 
     useEffect(() => {
-        if (data.data != undefined && !isLoaded) {
+
+        if (!isLoaded && data.data != undefined) {
             setTaskList(jsonToArray(data.data));
             setIsLoaded(true);
         }
+
     }, [data])
 
     function change(tasks) {
