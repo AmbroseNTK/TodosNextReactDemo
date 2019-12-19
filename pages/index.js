@@ -1,5 +1,6 @@
 import SearchAppBar from '../components/appbar';
 import { useTodos } from '../hooks/todos.hook';
+import Link from 'next/link';
 import MemoDialog from '../components/new-memo-dialog';
 import { useState, useEffect } from 'react';
 import Head from 'next/head';

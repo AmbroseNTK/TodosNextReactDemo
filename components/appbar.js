@@ -8,9 +8,12 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AddIcon from '@material-ui/icons/Add';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline'
 import { blue, lightBlue, red } from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
+
+import Link from 'next/link';
 
 const theme = createMuiTheme({
     palette: {
@@ -118,10 +121,39 @@ export default function SearchAppBar(props) {
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </div>
+                        <Link href="about">
+                            <IconButton>
+                                <HelpOutlineIcon />
+                            </IconButton>
+                        </Link>
+
                     </Toolbar>
                 </AppBar>
             </div>
         </ThemeProvider>
 
+    );
+}
+
+export function NormalAppBar() {
+    const classes = useStyles();
+    return (
+        <ThemeProvider theme={theme}>
+            <div className={classes.root}>
+
+                <Toolbar>
+                    <IconButton
+                        edge="start"
+                        className={classes.menuButton}
+                        color="inherit">
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography className={classes.title} variant="h6" noWrap>
+                        Mimemo
+                        </Typography>
+                </Toolbar>
+
+            </div>
+        </ThemeProvider>
     );
 }
